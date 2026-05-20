@@ -10,7 +10,15 @@
 // Note: The Apple clang compiler until XCode 8 does not support c++11's thread_local.
 // The alternative 'static' makes the code thread unsafe.
 // for Windows in Visual Studio 2019 on Intel 64-bit using thread_local causes a dependency to VCRUNTIME140_1.dll, so you need 2019 runtime DLLs instead of only 2015 version.
-#define ZX_THREAD_LOCAL thread_local // '' (nothing), 'thread_local' or 'static'
+// #define ZX_THREAD_LOCAL thread_local // '' (nothing), 'thread_local' or 'static'
+
+// MB patch begin
+#if defined( __EMSCRIPTEN__ )
+#   define ZX_THREAD_LOCAL static
+#else
+#   define ZX_THREAD_LOCAL thread_local
+#endif
+// MB patch end
 
 // The Galoir Field abstractions used in Reed-Solomon error correction code can use more memory to eliminate a modulo
 // operation. This improves performance but might not be the best option if RAM is scarce. The effect is a few kB big.
