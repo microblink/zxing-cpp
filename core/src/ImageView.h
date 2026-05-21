@@ -84,7 +84,11 @@ public:
 	{
 		// TODO: [[deprecated]] this check is to prevent existing code from suddenly throwing, remove in 3.1
 		if (_data == nullptr && _width == 0 && _height == 0 && rowStride == 0 && pixStride == 0) {
+		// MB patch begin
+		#ifdef PRINT_DEBUG
 			fprintf(stderr, "zxing-cpp deprecation warning: ImageView(nullptr, ...) will throw in the future, use ImageView()\n");
+		#endif
+		// MB patch end
 			return;
 		}
 
