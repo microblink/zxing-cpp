@@ -21,6 +21,10 @@ struct PointT
 	constexpr PointT(T x, T y) : x(x), y(y) {}
 
 	template <typename U>
+	// MB patch begin
+	// Conversion from `float` to `int` can overflow, so disable the sanitizer for this constructor.
+	[[ clang::no_sanitize( "float-cast-overflow" ) ]]
+	// MB patch end
 	constexpr explicit PointT(const PointT<U>& p) : x(static_cast<T>(p.x)), y(static_cast<T>(p.y))
 	{}
 
